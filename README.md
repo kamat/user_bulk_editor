@@ -1,4 +1,4 @@
-user_bulk_editor
+User bulk editor
 ================
 
-Uer bulk editor for Moodle 2.x
+User bulk editor is a local plugin for Moodle 2.x
