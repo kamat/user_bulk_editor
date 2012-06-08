@@ -30,10 +30,6 @@ $PAGE->set_heading(get_string('ubfieldseditor', 'local_user_bulk_editor'));
 
 $PAGE->navbar->add(get_string('ubfieldseditor', 'local_user_bulk_editor'));
 
-$debug_div = '<div style="margin: 3px; padding: 5px; border: 1px solid #b7b7b7; background-color: #e7e7e7">';
-$debug = '<div style="margin: 3px; padding: 5px; border: 1px solid #b7b7b7; background-color: #fafafa">SESSION->bulk_users array: ' . $debug_div . implode(', ', $SESSION->bulk_users) . '</div><br>';
-$debug .= 'SESSION->UBE array: ' . $debug_div . implode(', ', $SESSION->ube_orig) . '</div><br>';
-
 $change_form = new user_bulk_editor_change_form(null, array('field' => $field));
 
 if (preg_match('/(?<=profile_field_)[\W\w]*/', $field, $cpf) !== FALSE){
@@ -48,15 +44,6 @@ if ($change_form->is_cancelled()) {
     // Form is cancelled
     redirect($return);
 } else if ($formdata = $change_form->get_data()) {
-
-/*foreach ((array) $formdata as $a => $b){
-echo $a . ' - ' . $b . '<br>';
-};*/
-
-//echo print_r((array) $formdata);
-
-
-    $debug .= 'Form data array: ' . $debug_div . print_r($formdata, true) . '</div><br>';
 
     // If field type = 'Menu'
     $fld_options = array();
@@ -111,8 +98,6 @@ echo $a . ' - ' . $b . '<br>';
         $field_info = $DB->get_record('user_info_field', array('shortname' => $field));
     };
 
-    $debug .= 'UPD '.$debug_div.'Prepare: '.print_r($prepare_upd, true).'</div><br>';
-
     $queries = array();
     if ($action > 0 AND $action < 4) {
         // Replace all option
@@ -126,14 +111,12 @@ echo $a . ' - ' . $b . '<br>';
                                'params' => $params_upd);
         } else {
             $query = "id $insql";
-            //$params_upd = array_merge(array($replaceallto), $inparams);
             $queries[] = array('select' => $query,
                                'table' => 'user',
                                'newfield' => $field,
                                'newvalue' => $replaceallto,
                                'params' => $inparams);
         };
-        $debug .= 'Query data RA:'.$debug_div.$query.'<br>Params: '.print_r($params_upd, true).'</div><br>';
     } else {
         foreach($prepare_upd as $key => $val){
             if ($isCustom){
@@ -162,30 +145,27 @@ echo $a . ' - ' . $b . '<br>';
         };
     };
 
+    echo $OUTPUT->header();
+    echo $OUTPUT->heading(get_string('ubfieldseditoraction', 'local_user_bulk_editor'));
+
+    // Process all queries
+    echo '<center>';
+    foreach ($queries as $query) {
+        try {
+            echo get_string('updatefield', 'local_user_bulk_editor', array('f' => $field, 'n' => $query['newvalue']));
+            $DB->set_field_select($query['table'], $query['newfield'], $query['newvalue'], $query['select'], $query['params']);
+            echo '<div class="success">'.get_string('success') . '</div><hr><br>';
+        } catch (dml_exception $e) {
+            echo '<div class="error">'.get_string('dbupdatefailed', 'error') . '</div><hr><br>';
+        };
+    };
+    echo '</center>';
+
+    echo $OUTPUT->continue_button($return);
+    echo $OUTPUT->footer();
+
 } else {
     // Form not validated?
     redirect($return);
 };
-
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('ubfieldseditoraction', 'local_user_bulk_editor'));
-
-echo $debug . print_r($queries, true) . '</div>';
-
-// Process all queries
-echo '<center>';
-foreach ($queries as $query) {
-    try {
-        echo get_string('updatefield', 'local_user_bulk_editor', array('f' => $field, 'n' => $query['newvalue']));
-        $DB->set_field_select($query['table'], $query['newfield'], $query['newvalue'], $query['select'], $query['params']);
-        echo '<div class="success">'.get_string('success') . '</div><hr><br>';
-    } catch (dml_exception $e) {
-        echo '<div class="error">'.get_string('dbupdatefailed', 'error') . '</div><hr><br>';
-    };
-};
-echo '</center>';
-
-echo $OUTPUT->continue_button($return);
-echo $OUTPUT->footer();
-
 
