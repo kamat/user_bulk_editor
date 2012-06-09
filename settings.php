@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Adds this plugin to the admin menu.
+ * User bulk editor local plugin version information
  *
- * @package    auth
- * @subpackage mcae
- * @copyright  2011 Andrew "Kama" (kamasutra12@yandex.ru)
+ * @package    local
+ * @subpackage user_bulk_editor
+ * @copyright  2012 Andrew "Kama" (kamasutra12@yandex.ru) 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
