@@ -74,7 +74,7 @@ if ($change_form->is_cancelled()) {
             $from = (empty($fld_options)) ? $originals[$group["orig_$i"]] : $fld_options[$group["orig_$i"]];
 
             if ($isCustom AND $field_info->datatype == 'datetime') {
-                // Hindu code + magic for keys with sqare brackets.
+                // Dark magic for keys with sqare brackets.
                 $dtrepl = "group_$i" . "[repl_$i]";
                 $to = $formdata->$dtrepl;
             } else {
