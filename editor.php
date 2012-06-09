@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * User bulk editor local plugin version information
+ *
+ * @package    local
+ * @subpackage user_bulk_editor
+ * @copyright  2012 Andrew "Kama" (kamasutra12@yandex.ru) 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once('../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/local/user_bulk_editor/lib.php');
