@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * User bulk editor local plugin version information
+ *
+ * @package    local
+ * @subpackage user_bulk_editor
+ * @copyright  2012 Andrew "Kama" (kamasutra12@yandex.ru) 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->libdir.'/datalib.php');
 
