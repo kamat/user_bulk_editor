@@ -25,5 +25,3 @@ _Supported field types:_
 * Then fill the form below;
 * Click 'Submit' button;
 * Read the log then click 'Continue' button to return to the user selector page.
-
-That's all.
