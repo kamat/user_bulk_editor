@@ -17,7 +17,7 @@ class user_bulk_editor_action_form extends moodleform {
         global $DB, $CFG;
 
         $mform =& $this->_form;
-        $fields = array('username'  => 'username',
+/*        $fields = array('username'  => 'username',
                         'email'     => 'email',
                         'firstname' => 'firstname',
                         'lastname'  => 'lastname',
@@ -33,7 +33,14 @@ class user_bulk_editor_action_form extends moodleform {
                         'aim'       => 'aim',
                         'yahoo'     => 'yahoo',
                         'msn'       => 'msn',
+                        'country'   => 'country');*/
+
+        $fields = array('institution' => 'institution',
+                        'department' => 'department',
+                        'city'      => 'city',
                         'country'   => 'country');
+
+
 
         if ($extrafields = $DB->get_records('user_info_field')) {
             foreach ($extrafields as $n=>$v){
@@ -210,7 +217,7 @@ class user_bulk_editor_change_form extends moodleform {
             if (count($result) > $max_change) {
                 $mform->disabledIf('group_'.$i.'[orig_'.$i.']', 'chk_all', 'checked');
             };
-            $mform->addGroup($rgroup, 'group_'.$i, 'Replace '.$i);
+            $mform->addGroup($rgroup, 'group_'.$i, get_string('replace', 'local_user_bulk_editor', array($i)));
             $mform->setDefault('group_'.$i.'[orig_'.$i.']', $i);
             $mform->disabledIf('group_'.$i.'[repl_'.$i.']', 'chk_all', 'checked');
         };

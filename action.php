@@ -163,9 +163,9 @@ if ($change_form->is_cancelled()) {
         try {
             echo get_string('updatefield', 'local_user_bulk_editor', array('f' => $field, 'n' => $query['newvalue']));
             $DB->set_field_select($query['table'], $query['newfield'], $query['newvalue'], $query['select'], $query['params']);
-            echo '<div class="success">'.get_string('success') . '</div><hr><br>';
+            echo '<div class="notifysuccess">'.get_string('success') . '</div><hr><br>';
         } catch (dml_exception $e) {
-            echo '<div class="error">'.get_string('dbupdatefailed', 'error') . '</div><hr><br>';
+            echo '<div class="notifyproblem">'.get_string('dbupdatefailed', 'error') . '</div><hr><br>';
         };
     };
     echo '</center>';
