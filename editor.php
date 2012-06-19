@@ -10,7 +10,6 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/local/user_bulk_editor/lib.php');
 require_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM));
 
