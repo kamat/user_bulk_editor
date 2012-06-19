@@ -11,6 +11,7 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot.'/local/user_bulk_editor/lib.php');
+require_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM));
 
 $field = required_param('field', PARAM_RAW);
 $return = $CFG->wwwroot.'/local/user_bulk_editor/index.php';
