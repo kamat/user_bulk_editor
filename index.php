@@ -13,6 +13,7 @@ require_once('../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/'.$CFG->admin.'/user/lib.php');
 require_once($CFG->dirroot.'/'.$CFG->admin.'/user/user_bulk_forms.php');
+require_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM));
 
 admin_externalpage_setup('userbulkeditor');
 
