@@ -81,7 +81,7 @@ $user_bulk_form->display();
 echo $OUTPUT->continue_button($continue);
 
 $auth = get_enabled_auth_plugins(true);
-if (in_array('auth_mcae', $auth)) {
+if (in_array('mcae', $auth)) {
     echo $OUTPUT->single_button($CFG->wwwroot.'/local/user_bulk_editor/process_mcae.php', get_string('mcaebutton', 'local_user_bulk_editor'));
 };
 
