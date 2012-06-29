@@ -69,6 +69,7 @@ if ($data = $user_bulk_form->get_data()) {
 }
 
 $continue = $CFG->wwwroot.'/local/user_bulk_editor/editor.php';
+
 // do output
 echo $OUTPUT->header();
 
@@ -78,5 +79,10 @@ $ufiltering->display_active();
 $user_bulk_form->display();
 
 echo $OUTPUT->continue_button($continue);
+
+$auth = get_enabled_auth_plugins(true);
+if (in_array('auth_mcae', $auth)) {
+    echo $OUTPUT->single_button($CFG->wwwroot.'/local/user_bulk_editor/process_mcae.php', get_string('mcaebutton', 'local_user_bulk_editor'));
+};
 
 echo $OUTPUT->footer();

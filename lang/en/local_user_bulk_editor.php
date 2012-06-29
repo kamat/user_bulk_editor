@@ -23,4 +23,7 @@ $string['reverse'] = 'Reverse';
 $string['replaceall'] = 'Replace all';
 $string['replace'] = 'Replace {$a}';
 $string['to'] = 'to';
-
+$string['mcaebutton'] = 'Mass cohort creation';
+$string['processmcae'] = 'Mass cohort creation';
+$string['processmcaeerrors'] = 'Errors: {$a-e}<br>IDs: {$a->m}';
+$string['progress'] = 'Updating user <b>{$a->n}</b> of <b>{$a->c}</b>';
