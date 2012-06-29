@@ -39,22 +39,25 @@ echo $OUTPUT->heading(get_string('processmcae', 'local_user_bulk_editor'));
 // For all selected users do $mcae->user_authenticated_hook($USER,$USER->username,"");
 // and print user's fullname on the page. . . 
 
-$progress = new progressbar('mcae');
+$progress = new progress_bar('mcae');
 $progress->create();
 
 $count = count($users);
 $errors = 0;
 $err_msg = array();
+$current = 1;
 
-for ($current = 0; $current <= $count; $current++) {
-    $userid = $users[$current];
+foreach ($users as $userid) {
+    //$userid = $users[$current];
     if (!$current_user = $DB->get_record('user', array('id'=>$userid))) {
         $errors++;
         $error_msg[] = $userid;
     } else {
+        profile_load_custom_fields($current_user);
         $mcae->user_authenticated_hook($current_user,$current_user->username,"");
     };
     $progress->update($current, $count, get_string('progress', 'local_user_bulk_editor', array('n'=>$current,'c'=>$count)));
+    $current++;
 };
 
 echo get_string('processmcaeerrors', 'local_user_bulk_editor', array('e'=>$errors,'m'=>implode(', ', $err_msg)));

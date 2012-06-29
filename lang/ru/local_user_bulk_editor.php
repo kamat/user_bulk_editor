@@ -25,6 +25,6 @@ $string['replace'] = 'Замена {$a}';
 $string['to'] = 'на';
 $string['mcaebutton'] = 'Массовое создание глобальных групп';
 $string['processmcae'] = 'Массовое создание глобальных групп';
-$string['processmcaeerrors'] = 'Ошибок: {$a-e}<br>ID пользователей с ошибками: {$a->m}';
+$string['processmcaeerrors'] = 'Ошибок: {$a->e}<br>ID пользователей с ошибками: {$a->m}';
 $string['progress'] = 'Обновляем пользователя <b>{$a->n}</b> из <b>{$a->c}</b>';
 
