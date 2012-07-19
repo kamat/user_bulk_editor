@@ -13,6 +13,8 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/auth/mcae/auth.php');
 require_capability('moodle/user:update', get_context_instance(CONTEXT_SYSTEM));
 
+set_time_limit(0);
+
 $return = $CFG->wwwroot.'/local/user_bulk_editor/index.php';
 
 if (!isset($SESSION->bulk_users) || empty($SESSION->bulk_users)) {
