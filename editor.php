@@ -19,7 +19,7 @@ if (!isset($SESSION->bulk_users) || empty($SESSION->bulk_users)) {
     redirect($return);
 }
 
-$SESION->ube_orig = array();
+$SESSION->ube_orig = array();
 
 $PAGE->set_context(get_context_instance(CONTEXT_SYSTEM));
 $PAGE->set_pagelayout('admin');

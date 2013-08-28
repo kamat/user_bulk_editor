@@ -35,7 +35,8 @@ class user_bulk_editor_action_form extends moodleform {
                         'msn'       => 'msn',
                         'country'   => 'country');*/
 
-        $fields = array('institution' => 'institution',
+        $fields = array('suspended' => 'suspended',
+                        'institution' => 'institution',
                         'department' => 'department',
                         'city'      => 'city',
                         'country'   => 'country');
@@ -108,8 +109,11 @@ class user_bulk_editor_change_form extends moodleform {
             $SESSION->ube_orig = $result;
 
         $mform->addElement('hidden', 'custom', $isCustom);
+        $mform->setType('custom', PARAM_INT);
         $mform->addElement('hidden', 'fldtype', $fld_type);
+        $mform->setType('fldtype', PARAM_TEXT);
         $mform->addElement('hidden', 'count', $cnt);
+        $mform->setType('count', PARAM_INT);
 
         if ($fld_type == 'checkbox') {
             $chk_radio = array();
@@ -129,6 +133,7 @@ class user_bulk_editor_change_form extends moodleform {
                 }
 
                 $mform->addElement('select', 'repl_all', get_string('to', 'local_user_bulk_editor'), $options);
+//                $mform->setType('repl_all', PARAM_RAW);
 
             } else if ($fld_type == 'datetime') {
                 $attributes_dt = array(
@@ -142,12 +147,15 @@ class user_bulk_editor_change_form extends moodleform {
                 // Check if they wanted to include time as well
                 if (!empty($field_info->param3)) {
                     $mform->addElement('date_time_selector', 'repl_all', get_string('to', 'local_user_bulk_editor'), $attributes_dt);
+                    $mform->setType('repl_all', PARAM_INT);
                 } else {
                     $mform->addElement('date_selector', 'repl_all', get_string('to', 'local_user_bulk_editor'), $attributes_dt);
+                    $mform->setType('repl_all', PARAM_INT);
                 }
 
             } else {
                 $mform->addElement('text', 'repl_all', get_string('to', 'local_user_bulk_editor'));
+                $mform->setType('repl_all', PARAM_RAW);
             };
         };
 
@@ -164,13 +172,14 @@ class user_bulk_editor_change_form extends moodleform {
             // Add an element with specified type
             switch ($fld_type){
                 case 'text':
-                    $rgroup[1] = $mform->createElement('select', 'orig_'.$i, get_string('replace', 'local_user_bulk_editor', array($i)), $result, $attributes);
-                    //$mform->setDefault('orig_'.$i, $i);
+                    $rgroup[1] = $mform->createElement('select', 'orig_'.$i, get_string('replace', 'local_user_bulk_editor', array('num' => $i)), $result, $attributes);
+//                    $mform->setType('orig_'.$i, PARAM_TEXT);
 
                     $rgroup[2] = $mform->createElement('text', 'repl_'.$i, get_string('to', 'local_user_bulk_editor'));
+                    $mform->setType('group_'.$i.'[repl_'.$i.']', PARAM_TEXT);
                   break;
                 case 'menu';
-                    $rgroup[1] = $mform->createElement('select', 'orig_'.$i, get_string('replace', 'local_user_bulk_editor', array($i)), $result, $attributes);
+                    $rgroup[1] = $mform->createElement('select', 'orig_'.$i, get_string('replace', 'local_user_bulk_editor', array('num' => "$i")), $result, $attributes);
                     //$mform->setDefault('orig_'.$i, $i);
 
                     $param1 = explode("\n", $field_info->param1);
@@ -180,6 +189,7 @@ class user_bulk_editor_change_form extends moodleform {
                     }
 
                     $rgroup[2] = $mform->createElement('select', 'repl_'.$i, get_string('to', 'local_user_bulk_editor'), $options);
+                    // $mform->setType('group_'.$i.'[repl_'.$i.']', PARAM_INT);
                   break;
                 case 'datetime':
                     $date_result = array();
@@ -187,7 +197,7 @@ class user_bulk_editor_change_form extends moodleform {
                         $date_result[$key] = userdate($val);
                     };
 
-                    $rgroup[1] = $mform->createElement('select', 'orig_'.$i, get_string('replace', 'local_user_bulk_editor', array($i)), $date_result, $attributes);
+                    $rgroup[1] = $mform->createElement('select', 'orig_'.$i, get_string('replace', 'local_user_bulk_editor', array('num' => "$i")), $date_result, $attributes);
                     //$mform->setDefault('orig_'.$i, $i);
 
                     $attributes_dt = array(
@@ -217,7 +227,7 @@ class user_bulk_editor_change_form extends moodleform {
             if (count($result) > $max_change) {
                 $mform->disabledIf('group_'.$i.'[orig_'.$i.']', 'chk_all', 'checked');
             };
-            $mform->addGroup($rgroup, 'group_'.$i, get_string('replace', 'local_user_bulk_editor', array($i)));
+            $mform->addGroup($rgroup, 'group_'.$i, get_string('replace', 'local_user_bulk_editor', array('num' => "$i")));
             $mform->setDefault('group_'.$i.'[orig_'.$i.']', $i);
             $mform->disabledIf('group_'.$i.'[repl_'.$i.']', 'chk_all', 'checked');
         };

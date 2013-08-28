@@ -109,6 +109,7 @@ if ($change_form->is_cancelled()) {
     };
 
     $queries = array();
+    $notfound = array();
     if ($action > 0 AND $action < 4) {
         // Replace all option
         if ($isCustom){
@@ -132,14 +133,19 @@ if ($change_form->is_cancelled()) {
             if ($isCustom){
                 $params = array_merge(array($field_info->id, $val['from']), $inparams);
                 $sql = "SELECT userid FROM {user_info_data} WHERE fieldid = ? AND data = ? AND userid $insql";
-                list($insql_upd, $inparams_upd) = $DB->get_in_or_equal($DB->get_fieldset_sql($sql, $params));
-                $params_upd = array_merge(array($field_info->id), $inparams_upd);
-                $query = "fieldid = ? AND userid $insql_upd";
-                $queries[] = array('select' => $query,
-                                   'table' => 'user_info_data',
-                                   'newfield' => 'data',
-                                   'newvalue' => $val['to'],
-                                   'params' => $params_upd);
+                $selupd = $DB->get_fieldset_sql($sql, $params);
+                if (!empty($selupd)) {
+                    list($insql_upd, $inparams_upd) = $DB->get_in_or_equal($selupd);
+                    $params_upd = array_merge(array($field_info->id), $inparams_upd);
+                    $query = "fieldid = ? AND userid $insql_upd";
+                    $queries[] = array('select' => $query,
+                                       'table' => 'user_info_data',
+                                       'newfield' => 'data',
+                                       'newvalue' => $val['to'],
+                                       'params' => $params_upd);
+                } else {
+                    $notfound[] = '<div class="notifyproblem">'.get_string('datanotfound', 'local_user_bulk_editor', array('f' => $field_info->shortname,'n' => $val['to'], 'o' => $val['from'])) . '</div><hr><br>';
+                }
             } else {
                 $params = array_merge(array($val['from']), $inparams);
                 $sql = "SELECT id FROM {user} WHERE $field = ? AND id $insql";
@@ -169,6 +175,9 @@ if ($change_form->is_cancelled()) {
             echo '<div class="notifyproblem">'.get_string('dbupdatefailed', 'error') . '</div><hr><br>';
         };
     };
+
+    echo implode('<br>', $notfound);
+
     echo '</center>';
 
     echo $OUTPUT->continue_button($return);
