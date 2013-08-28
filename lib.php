@@ -35,8 +35,11 @@ class user_bulk_editor_action_form extends moodleform {
                         'msn'       => 'msn',
                         'country'   => 'country');*/
 
-        $fields = array('suspended' => 'suspended',
+        $fields = array('autosubscribe' => 'autosubscribe',
+                        'maildigest' => 'maildigest',
+                        'trackforums' => 'trackforums',
                         'institution' => 'institution',
+                        'suspended' => 'suspended',
                         'department' => 'department',
                         'city'      => 'city',
                         'country'   => 'country');
